@@ -11,7 +11,7 @@ export default function usersReducer(state = initialState, action) {
 }
 
 export async function fetchUsers(dispatch, getState) {
-    fetch('/fakedata.json')
+    fetch('https://realtimecrudapp.herokuapp.com/user')
         .then(res => res.json())
         .then(data => {
             dispatch({

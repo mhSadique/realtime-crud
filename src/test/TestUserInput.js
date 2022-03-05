@@ -5,7 +5,9 @@ const UserInput = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const handleCreateUser = () => {
-        fetch('https://realtimecrudapp.herokuapp.com/user', {
+
+        // send name and email to database
+        fetch('http://localhost:3000/users', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -13,7 +15,12 @@ const UserInput = () => {
             body: JSON.stringify({ name, email })
         })
             .then(res => res.json())
-            .then(data => console.log(data));
+            .then(data => {
+                console.log(data);
+                if (data.insertedId) {
+                    alert('User created successfully')
+                }
+            });
         setName('');
         setEmail('');
     }

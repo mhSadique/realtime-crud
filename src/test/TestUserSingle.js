@@ -1,31 +1,18 @@
 import { Button, Card, CardActions, CardContent, Grid, Typography } from '@mui/material';
-import React, { useState } from 'react';
-import EditModal from './EditModal';
+import React from 'react';
 
 const UserSingle = ({ user }) => {
-    const [modalOpen, setModalOpen] = useState(false);
-    const handleModalOpen = () => setModalOpen(true);
-    const handleModalClose = () => setModalOpen(false);
 
     const onEditUser = () => {
         console.log('editing');
-        handleModalOpen();
     };
 
     const onDeleteUser = () => {
-        const confirm = window.confirm('Do you want to delete the user?');
-        if (confirm) {
-            fetch(`https://realtimecrudapp.herokuapp.com/user/${user._id}`, {
-                method: 'DELETE'
-            })
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data);
-                    if (data.deletedCount) {
-                        alert('User deleted');
-                    }
-                })
-        }
+        fetch(`http://localhost:3000/users/${user._id}`, {
+            method: 'DELETE'
+        })
+            .then(res => res.json())
+            .then(data => console.log(data))
     };
 
     return (
@@ -64,12 +51,6 @@ const UserSingle = ({ user }) => {
                     >
                         Edit
                     </Button>
-                    <EditModal
-                        modalOpen={modalOpen}
-                        onClose={handleModalClose}
-                        user={user}
-                        setModalOpen={setModalOpen}
-                    />
                     <Button
                         variant='contained'
                         color='error'

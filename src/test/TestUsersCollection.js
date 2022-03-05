@@ -1,18 +1,16 @@
 import { Container, Grid, Paper, Typography } from '@mui/material';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUsers } from '../redux/features/users/usersSlice';
-import UserSingle from './UserSingle';
+import UserSingle from './TestUserSingle';
 
 const UsersCollection = () => {
-
-    const users = useSelector(state => state.users);
-    const dispatch = useDispatch();
+    const [users, setUsers] = useState([]);
     useEffect(() => {
-        dispatch(fetchUsers)
-    }, [dispatch]);
-
-    console.log(users)
+        fetch('http://localhost:3000/users/')
+            .then(res => res.json())
+            .then(data => setUsers(data))
+    }, []);
 
     return (
         <Container sx={{
@@ -37,9 +35,7 @@ const UsersCollection = () => {
 
                     }}
                 >
-                    {users.length ?
-                        users.map(user => <UserSingle key={user.id} user={user} />) :
-                        'Found No Users'}
+                    {users.map(user => <UserSingle key={user._id} user={user} />)}
                 </Grid>
             </Paper>
         </Container>
